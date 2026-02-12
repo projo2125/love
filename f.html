@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Be My Valentine ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            flex-direction: column;
+            cursor: none; /* hearts follow cursor */
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: red;
+            font-weight: bold;
+            font-size: 45px;
+            margin: 20px 0;
+            position: relative;
+            display: inline-block;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px pink; }
+            to { text-shadow: 0 0 25px red; }
+        }
+
+        .couple-img {
+            width: 250px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        button {
+            background-color: white;
+            border: 2px solid red;
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 12px 30px;
+            margin: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 25px;
+            position: relative;
+            z-index: 10;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px red;
+        }
+
+        /* Corner flowers */
+        .flower {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            z-index: 5;
+            animation: sway 3s infinite alternate;
+        }
+        .top-left { top: 0; left: 0; }
+        .top-right { top: 0; right: 0; }
+        .bottom-left { bottom: 0; left: 0; }
+        .bottom-right { bottom: 0; right: 0; }
+
+        @keyframes sway {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        /* Hearts pop from text/buttons/cursor */
+        .heart-pop {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: fly 2s forwards;
+            z-index: 20;
+        }
+
+        @keyframes fly {
+            0% { transform: scale(0) translate(0,0); opacity: 1; }
+            50% { transform: scale(1.2) translate(var(--x), var(--y)) rotate(var(--r)); opacity: 1; }
+            100% { transform: scale(0.8) translate(var(--x), calc(var(--y) - 150px)) rotate(var(--r)); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Corner Flowers -->
+<img src="rose-smell.gif" class="flower top-left" alt="Flower">
+<img src="cosytales-art.gif" class="flower top-right" alt="Flower">
+<img src="flower.gif" class="flower bottom-left" alt="Flower">
+<img src="flower.gif" class="flower bottom-right" alt="Flower">
+
+<div class="container">
+    <!-- Cartoon couple above text -->
+    <img src="brown-bear.gif" class="couple-img" alt="Cute Fighting Couple">
+
+    <!-- Valentine text at center -->
+    <h1 id="valentine-text">Can You Be My Valentine? ❤️</h1>
+
+    <!-- Buttons below text -->
+    <div>
+        <button id="yes-btn" onclick="window.location.href='alfii edit.mp4'">Yes 💖</button>
+        <button id="no-btn" onclick="window.location.href='no.html'">No 😈</button>
+    </div>
+</div>
+
+<script>
+const text = document.getElementById('valentine-text');
+const yesBtn = document.getElementById('yes-btn');
+const noBtn = document.getElementById('no-btn');
+
+// Function to create a heart at x, y
+function createHeart(x, y, emoji='💖') {
+    const heart = document.createElement('div');
+    heart.className = 'heart-pop';
+    heart.innerText = emoji;
+
+    const r = (Math.random() * 360) + 'deg';
+    const offsetX = (Math.random() * 100 - 50) + 'px';
+    const offsetY = (Math.random() * -100 - 50) + 'px';
+
+    heart.style.setProperty('--x', offsetX);
+    heart.style.setProperty('--y', offsetY);
+    heart.style.setProperty('--r', r);
+
+    heart.style.left = x + 'px';
+    heart.style.top = y + 'px';
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 2000);
+}
+
+// Hearts pop from text continuously
+setInterval(() => {
+    const rect = text.getBoundingClientRect();
+    const x = rect.left + rect.width/2 + (Math.random()*60 - 30);
+    const y = rect.top + window.scrollY + rect.height/2;
+    createHeart(x, y, '💖');
+}, 300);
+
+// YES hover heart explosion
+yesBtn.addEventListener('mouseenter', () => {
+    for(let i=0; i<10; i++){
+        const rect = yesBtn.getBoundingClientRect();
+        const x = rect.left + rect.width/2;
+        const y = rect.top + window.scrollY + rect.height/2;
+        createHeart(x, y, '💘');
+    }
+});
+
+// NO hover mischievous hearts
+noBtn.addEventListener('mouseenter', () => {
+    for(let i=0; i<5; i++){
+        const rect = noBtn.getBoundingClientRect();
+        const x = rect.left + rect.width/2;
+        const y = rect.top + window.scrollY + rect.height/2;
+        createHeart(x, y, '😈');
+    }
+});
+
+// Cursor-following hearts
+document.addEventListener('mousemove', (e) => {
+    if(Math.random() < 0.2){ // spawn less frequently for effect
+        createHeart(e.clientX, e.clientY, '💖');
+    }
+});
+</script>
+
+</body>
+</html>

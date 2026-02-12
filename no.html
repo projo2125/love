@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oh No! 😈</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: red;
+            font-weight: bold;
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        img {
+            width: 300px;
+            max-width: 80%;
+            border-radius: 15px;
+            box-shadow: 0 0 20px pink;
+            margin-bottom: 20px;
+        }
+
+        /* Hearts pop from text or image */
+        .heart-pop {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: fly 2s forwards;
+        }
+
+        @keyframes fly {
+            0% { transform: scale(0) translate(0,0); opacity: 1; }
+            50% { transform: scale(1.2) translate(var(--x), var(--y)) rotate(var(--r)); opacity: 1; }
+            100% { transform: scale(0.8) translate(var(--x), calc(var(--y) - 150px)) rotate(var(--r)); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>FUCK YOU BITCH 😈</h1>
+    <h2>sarolla alfii</h2>
+    <img src="alfi.jpeg" alt="Funny/No image">
+</div>
+
+<script>
+const heading = document.querySelector('h1');
+
+// Function to create evil smile hearts
+function createHeart(x, y, emoji='😈') {
+    const heart = document.createElement('div');
+    heart.className = 'heart-pop';
+    heart.innerText = emoji;
+
+    const r = (Math.random() * 360) + 'deg';
+    const offsetX = (Math.random() * 100 - 50) + 'px';
+    const offsetY = (Math.random() * -100 - 50) + 'px';
+
+    heart.style.setProperty('--x', offsetX);
+    heart.style.setProperty('--y', offsetY);
+    heart.style.setProperty('--r', r);
+
+    heart.style.left = x + 'px';
+    heart.style.top = y + 'px';
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 2000);
+}
+
+// Hearts pop from heading continuously
+setInterval(() => {
+    const rect = heading.getBoundingClientRect();
+    const x = rect.left + rect.width/2 + (Math.random()*60 - 30);
+    const y = rect.top + window.scrollY + rect.height/2;
+    createHeart(x, y, '😈');
+}, 400);
+</script>
+
+</body>
+</html>
